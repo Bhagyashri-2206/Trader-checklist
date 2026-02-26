@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trader Checklist</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* ===== Animated Gradient Background ===== */
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000000);
+    background-size:400% 400%;
+    animation:gradientMove 15s ease infinite;
+    position:relative;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ===== STOCK MARKET DOODLE BACKGROUND ===== */
+body::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-image:url("data:image/svg+xml,\
+<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'>\
+<g stroke='white' stroke-width='2' fill='none' opacity='0.07'>\
+<polyline points='50,600 150,450 250,500 350,350 450,420 550,300 650,380 750,250'/>\
+<polyline points='100,200 200,250 300,180 400,230 500,150 600,200'/>\
+<line x1='120' y1='520' x2='120' y2='470'/>\
+<rect x='110' y='480' width='20' height='30'/>\
+<line x1='200' y1='480' x2='200' y2='430'/>\
+<rect x='190' y='440' width='20' height='30'/>\
+<circle cx='650' cy='150' r='50'/>\
+<text x='630' y='165' font-size='40' fill='white'>$</text>\
+<polyline points='500,600 550,550 600,580'/>\
+<line x1='550' y1='550' x2='550' y2='520'/>\
+<polygon points='300,700 380,650 460,700'/>\
+<rect x='320' y='700' width='120' height='50'/>\
+<circle cx='150' cy='150' r='40'/>\
+<line x1='150' y1='150' x2='150' y2='125'/>\
+<line x1='150' y1='150' x2='170' y2='150'/>\
+<circle cx='700' cy='600' r='40'/>\
+<circle cx='700' cy='600' r='20'/>\
+</g>\
+</svg>");
+    background-size:600px 600px;
+    z-index:0;
+}
+
+/* ===== Main Container ===== */
+.container{
+    position:relative;
+    z-index:2;
+    width:500px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    color:white;
+}
+
+h1{text-align:center;margin-bottom:10px;}
+.motivation{
+    text-align:center;
+    font-size:15px;
+    color:#00ffcc;
+    margin-bottom:20px;
+}
+
+ul{
+    list-style:none;
+    max-height:250px;
+    overflow-y:auto;
+}
+
+li{
+    margin:8px 0;
+    padding:10px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    transition:0.3s;
+    position:relative;
+}
+
+li:hover{background:rgba(255,255,255,0.1);}
+
+input[type="checkbox"]{
+    margin-right:10px;
+    cursor:pointer;
+}
+
+.checked{
+    text-decoration:line-through;
+    color:#00ffcc;
+}
+
+/* ===== Buttons ===== */
+.buttons{text-align:center;margin-top:20px;}
+
+button{
+    padding:8px 15px;
+    margin:5px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.add-btn{background:#00ffcc;}
+.delete-btn{background:#ffaa00;}
+.refresh-btn{background:#ff4d4d;color:white;}
+
+button:hover{transform:scale(1.1);}
+
+/* ===== Popup ===== */
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+.popup-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    width:320px;
+    text-align:center;
+    color:black;
+}
+
+.popup-box input{
+    width:90%;
+    padding:8px;
+    margin:10px 0;
+}
+
+.suggestions{
+    text-align:left;
+    max-height:100px;
+    overflow-y:auto;
+}
+
+.suggestions div{
+    padding:5px;
+    cursor:pointer;
+}
+
+.suggestions div:hover{
+    background:#ddd;
+}
+
+/* Emoji Animation */
+.emoji{
+    position:absolute;
+    right:10px;
+    font-size:20px;
+    animation:floatUp 1s forwards;
+}
+
+@keyframes floatUp{
+    0%{opacity:1;transform:translateY(0);}
+    100%{opacity:0;transform:translateY(-40px);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>📊 Trader Discipline Checklist</h1>
+    <div class="motivation">
+        Trade with logic. Execute with discipline. Grow with patience
+    </div>
+
+    <ul id="checklist">
+        <li><input type="checkbox">Identify trend direction + structure</li>
+        <li><input type="checkbox">Identify where liquidity sits</li>
+        <li><input type="checkbox">Wait for active session (London Open)</li>
+        <li><input type="checkbox">Let price sweep available liquidity</li>
+        <li><input type="checkbox">Watch for reaction</li>
+        <li><input type="checkbox">Execute with defined risk</li>
+    </ul>
+
+    <div class="buttons">
+        <button class="add-btn" id="addBtn">Add</button>
+        <button class="delete-btn" id="deleteBtn">Delete</button>
+        <button class="refresh-btn" id="refreshBtn">Refresh</button>
+    </div>
+</div>
+
+<!-- ADD POPUP -->
+<div class="popup" id="addPopup">
+    <div class="popup-box">
+        <h3>Add New Checkbox</h3>
+        <input type="text" id="newItem" placeholder="Enter checkbox name">
+        <br>
+        <button id="saveBtn">Save</button>
+        <button onclick="closeAdd()">Cancel</button>
+    </div>
+</div>
+
+<!-- DELETE POPUP -->
+<div class="popup" id="deletePopup">
+    <div class="popup-box">
+        <h3>Delete Checkbox</h3>
+        <input type="text" id="deleteInput" placeholder="Type to search">
+        <div class="suggestions" id="suggestions"></div>
+        <button id="removeBtn">Remove</button>
+        <button onclick="closeDelete()">Cancel</button>
+    </div>
+</div>
+
+<script>
+const checklist=document.getElementById("checklist");
+
+/* ADD */
+document.getElementById("addBtn").onclick=()=>{
+    document.getElementById("addPopup").style.display="flex";
+};
+
+document.getElementById("saveBtn").onclick=()=>{
+    const text=document.getElementById("newItem").value.trim();
+    if(text==="") return;
+
+    const li=document.createElement("li");
+    const checkbox=document.createElement("input");
+    checkbox.type="checkbox";
+
+    li.appendChild(checkbox);
+    li.appendChild(document.createTextNode(text));
+    checklist.appendChild(li);
+
+    closeAdd();
+};
+
+function closeAdd(){
+    document.getElementById("addPopup").style.display="none";
+    document.getElementById("newItem").value="";
+}
+
+/* DELETE */
+document.getElementById("deleteBtn").onclick=()=>{
+    document.getElementById("deletePopup").style.display="flex";
+};
+
+const deleteInput=document.getElementById("deleteInput");
+const suggestions=document.getElementById("suggestions");
+
+deleteInput.addEventListener("input",function(){
+    const value=this.value.toLowerCase();
+    suggestions.innerHTML="";
+    if(value==="") return;
+
+    checklist.querySelectorAll("li").forEach(li=>{
+        const text=li.textContent;
+        if(text.toLowerCase().includes(value)){
+            const div=document.createElement("div");
+            div.textContent=text;
+            div.onclick=()=>{
+                deleteInput.value=text;
+                suggestions.innerHTML="";
+            };
+            suggestions.appendChild(div);
+        }
+    });
+});
+
+document.getElementById("removeBtn").onclick=()=>{
+    const value=deleteInput.value.trim();
+    checklist.querySelectorAll("li").forEach(li=>{
+        if(li.textContent===value){
+            li.remove();
+        }
+    });
+    closeDelete();
+};
+
+function closeDelete(){
+    document.getElementById("deletePopup").style.display="none";
+    deleteInput.value="";
+    suggestions.innerHTML="";
+}
+
+/* REFRESH */
+document.getElementById("refreshBtn").onclick=()=>{
+    checklist.querySelectorAll("input").forEach(cb=>{
+        cb.checked=false;
+        cb.parentElement.classList.remove("checked");
+    });
+};
+
+/* CHECKBOX EMOJI */
+document.addEventListener("change",function(e){
+    if(e.target.type==="checkbox"){
+        if(e.target.checked){
+            e.target.parentElement.classList.add("checked");
+            const emoji=document.createElement("div");
+            emoji.className="emoji";
+            emoji.innerHTML="😊";
+            e.target.parentElement.appendChild(emoji);
+            setTimeout(()=>emoji.remove(),1000);
+        }else{
+            e.target.parentElement.classList.remove("checked");
+        }
+    }
+});
+</script>
+
+</body>
+</html>
